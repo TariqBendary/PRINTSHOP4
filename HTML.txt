@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>برنت شوب</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <button id="langBtn" class="lang-btn" data-lang-ar="English" data-lang-en="العربية">English</button>
+    <h1 data-lang-ar="برنت شوب" data-lang-en="Print Shop">برنت شوب</h1>
+
+    <form id="printForm">
+
+      <!-- نوع الطباعة -->
+      <div class="section">
+        <label data-lang-ar="نوع الطباعة:" data-lang-en="Print Type:">نوع الطباعة:</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="printType" value="ملون" />
+            <span data-lang-ar="طباعة ملونه" data-lang-en="Colored Print">طباعة ملونه</span>
+          </label>
+          <label>
+            <input type="radio" name="printType" value="أسود وأبيض" />
+            <span data-lang-ar="طباعة أسود وأبيض" data-lang-en="Black & White Print">طباعة أسود وأبيض</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- النسخ والأوراق -->
+      <div class="section">
+        <label for="copies" data-lang-ar="عدد النسخ:" data-lang-en="Copies:">عدد النسخ:</label>
+        <input type="number" id="copies" min="1" placeholder="أدخل عدد النسخ" data-placeholder-ar="أدخل عدد النسخ" data-placeholder-en="Enter number of copies">
+      </div>
+      <div class="section">
+        <label for="pages" data-lang-ar="عدد الأوراق:" data-lang-en="Pages:">عدد الأوراق:</label>
+        <input type="number" id="pages" min="1" placeholder="أدخل عدد الأوراق" data-placeholder-ar="أدخل عدد الأوراق" data-placeholder-en="Enter number of pages">
+      </div>
+
+      <!-- نوع الورق -->
+      <div class="section">
+        <label for="paperType" data-lang-ar="نوع الورق:" data-lang-en="Paper Type:">نوع الورق:</label>
+        <select id="paperType">
+          <option value="">بدون تحديد</option>
+          <option value="A4 - 80gsm" selected>A4 - 80 جرام</option>
+          <option value="A3 - 100gsm">A3 - 100 جرام</option>
+          <option value="custom">مقاس مخصص</option>
+        </select>
+        <input type="text" id="customPaper" placeholder="أدخل المقاس المخصص" data-placeholder-ar="أدخل المقاس المخصص" data-placeholder-en="Enter custom size" style="display:none;">
+      </div>
+
+      <!-- عنوان التوصيل -->
+      <div class="section">
+        <label for="delivery" data-lang-ar="عنوان التوصيل:" data-lang-en="Delivery Address:">عنوان التوصيل:</label>
+        <input type="text" id="delivery" placeholder="أدخل عنوان التوصيل" data-placeholder-ar="أدخل عنوان التوصيل" data-placeholder-en="Enter delivery address">
+        <div id="distanceResult" class="delivery-estimation" style="display:none;"></div>
+      </div>
+
+      <!-- صندوق عرض التقدير -->
+      <div class="section">
+        <label data-lang-ar="التقدير المبدئي للتوصيل:" data-lang-en="Estimated Delivery Fee:">
+          التقدير المبدئي للتوصيل:
+        </label>
+        <div id="estimatedDeliveryBox" class="price-box">-</div>
+      </div>
+
+      <!-- وقت تجهيز الطلب -->
+      <div class="section">
+        <div id="deliveryMessage" data-lang-ar="يتم تجهيز طلبك خلال ساعتين بعد وصول رسالة تأكيد الدفع والطباعة." data-lang-en="Your order will be ready within 2 hours after payment and print confirmation.">
+          يتم تجهيز طلبك خلال ساعتين بعد وصول رسالة تأكيد الدفع والطباعة.
+        </div>
+      </div>
+
+      <!-- ملاحظات إضافية -->
+      <div class="section">
+        <label data-lang-ar="ملاحظات إضافية:" data-lang-en="Additional Notes:">ملاحظات إضافية:</label>
+        <div class="radio-group" id="extraNotesRadios">
+          <label>
+            <input type="radio" name="extraNote" value="دباسة">
+            <span data-lang-ar="دباسة" data-lang-en="Stapler">دباسة</span>
+          </label>
+          <label>
+            <input type="radio" name="extraNote" value="تكعيب حلزوني">
+            <span data-lang-ar="تكعيب حلزوني" data-lang-en="Spiral Binding">تكعيب حلزوني</span>
+          </label>
+          <label>
+            <input type="radio" name="extraNote" value="تكعيب سلك">
+            <span data-lang-ar="تكعيب سلك" data-lang-en="Wire Binding">تكعيب سلك</span>
+          </label>
+          <label>
+            <input type="radio" name="extraNote" value="طباعة وش وظهر">
+            <span data-lang-ar="طباعة وش وظهر" data-lang-en="Double-sided print">طباعة وش وظهر</span>
+          </label>
+          <label>
+            <input type="radio" name="extraNote" value="ملاحظات أخرى">
+            <span data-lang-ar="ملاحظات أخرى" data-lang-en="Other notes">ملاحظات أخرى</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="section" id="extraNotesTextareaContainer" style="display: none;">
+        <textarea id="notes" placeholder="أدخل ملاحظاتك" data-placeholder-ar="أدخل ملاحظاتك" data-placeholder-en="Enter your notes"></textarea>
+      </div>
+
+      <!-- الملفات -->
+      <div class="section">
+        <label for="files" data-lang-ar="الملفات:" data-lang-en="Files:">الملفات:</label>
+        <input type="file" id="files" multiple accept=".pdf,.jpg,.png,.docx" />
+        <div id="fileList"></div>
+      </div>
+
+      <!-- الأسعار -->
+      <div class="section">
+        <label data-lang-ar="إجمالي الطباعة:" data-lang-en="Print Total:">إجمالي الطباعة:</label>
+        <div id="printPriceBox" class="price-box">0 د.ك</div>
+      </div>
+      <div class="section">
+        <label data-lang-ar="تكلفة التوصيل:" data-lang-en="Delivery Fee:">تكلفة التوصيل:</label>
+        <div id="deliveryPriceBox" class="price-box">0 د.ك</div>
+      </div>
+      <div class="section">
+        <label data-lang-ar="الإجمالي الكلي:" data-lang-en="Total Price:">الإجمالي الكلي:</label>
+        <div id="totalPriceBox" class="price-box">0 د.ك</div>
+      </div>
+
+      <!-- QR Code Section -->
+      <div class="section" id="qrSection" style="display: none;">
+        <label data-lang-ar="كود الاستجابة السريعة (QR):" data-lang-en="QR Code:">كود الاستجابة السريعة (QR):</label>
+        <canvas id="qrCanvas"></canvas>
+      </div>
+
+      <!-- الأزرار -->
+      <div class="button-group">
+        <button type="button" id="sendBtn" data-lang-ar="إرسال عبر الواتساب" data-lang-en="Send via WhatsApp">إرسال عبر الواتساب</button>
+        <button type="button" id="unsubscribeBtn" data-lang-ar="إلغاء" data-lang-en="Cancel">إلغاء</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span id="popupMessage">تم إرسال الطلب بنجاح!</span>
+      <button id="popupClose">حسناً</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
